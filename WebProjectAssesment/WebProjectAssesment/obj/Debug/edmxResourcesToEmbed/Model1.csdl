@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="webDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="webDatabaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblCustomers" EntityType="webDatabaseModel.tblCustomer" />
+    <EntitySet Name="tblUsers" EntityType="webDatabaseModel.tblUser" />
+    <AssociationSet Name="FK_tblCustomer_tblUser" Association="webDatabaseModel.FK_tblCustomer_tblUser">
+      <End Role="tblUser" EntitySet="tblUsers" />
+      <End Role="tblCustomer" EntitySet="tblCustomers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tblCustomer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedBy" Type="Int32" />
+    <NavigationProperty Name="tblUser" Relationship="webDatabaseModel.FK_tblCustomer_tblUser" FromRole="tblCustomer" ToRole="tblUser" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblCustomers" Relationship="webDatabaseModel.FK_tblCustomer_tblUser" FromRole="tblUser" ToRole="tblCustomer" />
+  </EntityType>
+  <Association Name="FK_tblCustomer_tblUser">
+    <End Type="webDatabaseModel.tblUser" Role="tblUser" Multiplicity="0..1" />
+    <End Type="webDatabaseModel.tblCustomer" Role="tblCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tblCustomer">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
